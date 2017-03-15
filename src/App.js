@@ -1,42 +1,21 @@
 import React from 'react';
-import {BrowserRouter, Route, NavLink as Link} from 'react-router-dom'
-
-import './App.css'
-
-const isActiveFunc = (match, location) => {
-  console.log(match, location)
-
-  return match
-}
-
-const Links = () => (
-  <nav>
-    <Link exact activeClassName='active' to='/'>Home</Link>
-    <Link activeStyle={{color: 'green'}} to='/about'>About</Link>
-    <Link
-      activeClassName='active'
-      isActive={isActiveFunc}
-      to='/contact'>
-      Contact
-    </Link>
-  </nav>
-)
+import {BrowserRouter, Route} from 'react-router-dom'
 
 const App = () => (
   <BrowserRouter>
     <div>
-      <Links />
-
       <Route
         exact
-        path='/'
-        render={() => <h1>Home</h1>} />
-      <Route
-        path='/about'
-        render={() => <h1>About</h1>} />
-      <Route
-        path='/contact'
-        render={() => <h1>Contact</h1>} />
+        path='/:page?/:subpage?'
+        render={({match}) => {
+          return (
+            <div>
+              <h1>Page: {match.params.page || 'Home'}</h1>
+              <h1>SubPage: {match.params.subpage}</h1>
+            </div>
+
+          )
+        }} />        
     </div>
   </BrowserRouter>
 )
