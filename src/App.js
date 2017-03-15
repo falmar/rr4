@@ -6,16 +6,16 @@ const App = () => (
     <div>
       <Route
         exact
-        path='/:page?/:subpage?'
+        path='/:a(\d{2}-\d{2}-\d{4}):b(\.[a-z]+)'
         render={({match}) => {
           return (
             <div>
-              <h1>Page: {match.params.page || 'Home'}</h1>
-              <h1>SubPage: {match.params.subpage}</h1>
+              <h1>A: {match.params.a}</h1>
+              <h1>B: {match.params.b}</h1>
             </div>
 
           )
-        }} />        
+        }} />
     </div>
   </BrowserRouter>
 )
