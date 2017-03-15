@@ -4,24 +4,27 @@ import './App.css'
 
 const Links = () => (
   <nav>
-    <Link to='/home'>Home</Link>
-    <Link to='/about'>About</Link>
+    <Link to='/'>Home</Link>
+    <Link to='/menu'>Menu</Link>
   </nav>
 )
 
-const Header = () => (
-  <div className='header'>
-    <Route
-      path='/:page'
-      render={({match}) => <h1>{match.params.page} header</h1>} />
-  </div>
-)
+const Home = () => <h1>Home</h1>
+const Menu = () => (
+  <div>
+    <h1>Menu</h1>
 
-const Content = () => (
-  <div className='content'>
+    <Link to='/menu/food'>Food</Link>
+    <Link to='/menu/drink'>Drink</Link>
+    <Link to='/menu/sides'>Sides</Link>
+
     <Route
-      path='/:page'
-      render={({match}) => <p>{match.params.page} content</p>} />
+      path='/menu/:section'
+      render={({match}) => {
+        return (
+          <h2>{match.params.section}</h2>
+        )
+    }} />
   </div>
 )
 
@@ -29,9 +32,8 @@ const App = () => (
   <BrowserRouter>
     <div>
       <Links />
-      <Header />
-      <Content />
-
+      <Route exact path='/' component={Home} />
+      <Route path='/menu' component={Menu} />
     </div>
   </BrowserRouter>
 )
