@@ -1,43 +1,57 @@
-import React, {Component} from 'react';
-import {BrowserRouter, Route, Link, Prompt} from 'react-router-dom'
+import React from 'react';
+import {
+  BrowserRouter,
+  Route,
+  Link,
+  HashRouter,
+  MemoryRouter,
+  StaticRouter
+} from 'react-router-dom'
 import './App.css'
 
 const Links = () => (
   <nav>
     <Link to='/'>Home</Link>
-    <Link to='/form'>Form</Link>
+    <Link to='/about'>About</Link>
   </nav>
 )
 
-const Home = () => <h1>Home</h1>
-class Form extends Component {
-  state = {dirty: false}
-  setDirty = () => this.setState({dirty: true})
+const App = () => (
+  <div>
+    <Links />
+    <Route exact path='/' render={() => <h1>Home</h1>} />
+    <Route path='/about' render={() => <h1>About</h1>} />
+  </div>
+)
 
-  render() {
-    return (
-      <div>
-        <h1>Form is {this.state.dirty ? 'dirty' : 'clean'}</h1>
-        <input type="text" onInput={this.setDirty}/>
-        <Prompt
-          when={this.state.dirty}
-          message='Data will be lost'>
+const forceRefresh = () => {
+  console.log(new Date())
 
-        </Prompt>
-      </div>
-    )
-  }
+  return false
 }
 
-const App = () => (
-  <BrowserRouter>
-    <div>
-      <Links />
-      <Route exact path='/' component={Home} />
-      <Route exact path='/form' component={Form} />
-
-    </div>
+const BrowserRouterApp = () => (
+  <BrowserRouter forceRefresh={forceRefresh()}>
+    <App />
   </BrowserRouter>
 )
 
-export default App;
+const HashRouterApp = () => (
+  <HashRouter hashType="hashbang">
+    <App />
+  </HashRouter>
+)
+
+const MemoryRouterApp = () => (
+  <MemoryRouter initialEntries={['/', '/about']} initialIndex={1}>
+    <App />
+  </MemoryRouter>
+)
+
+const StaticRouterApp = () => (
+  <StaticRouter location='/about' context={{}}>
+    <App />
+  </StaticRouter>
+)
+
+export default StaticRouterApp;
